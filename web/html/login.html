@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>登录界面</title>
+    <script src="/mvc/js/vue.min.js"></script>
+    <script src="/mvc/js/axios.min.js"></script>
+</head>
+<body>
+<h1>登陆界面</h1>
+<div id="app">
+
+    <form>
+        用户名:<input type="text" v-model="user.username"> <br>
+        密码:<input type="password" v-model="user.password"> <br>
+        <input type="button" @click="login" value="登录">
+    </form>
+    <span style="color: red">{{message}}</span>
+
+</div>
+<script>
+
+    let app = new Vue({
+        el:"#app",
+        data:{
+            user:{},
+            message:""
+        },
+        /**
+         *  axios里面:
+         *   params :  提交数据 无论是get/post 数据提交都是get提交 数据都是拼接在 url上面
+         *
+         *   服务器获取:
+         *     req.getParameter("")
+         *     request.getParameterMap()
+         *
+         *   data    提交的数据是json对象
+         *      req.getInputStream()  拿到流,把流转成字符串,把字符串转成对象
+         */
+        methods:{
+            login(){
+                console.log(this.user);
+                axios({
+                    type:"GET",
+                    url:"http://localhost:8080/mvc/login",
+                    params:this.user
+                }).then(resp=>{
+                    console.log(resp);
+                    console.log(resp.data);
+                    if (resp.data.code == 100000){
+                        alert(resp.data.msg);
+                        //页面跳转
+                        location.href = "success.html";
+                    }else{
+                        alert(resp.data.msg);
+                        // this.message=resp.data.msg;
+                        this.message="登录失败, 请重新登陆";
+                    }
+                })
+            }
+        }
+    })
+
+</script>
+
+</body>
+</html>

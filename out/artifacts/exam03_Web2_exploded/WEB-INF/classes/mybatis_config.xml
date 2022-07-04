@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+
+    <!-- 引入 外部的  db配置 -->
+    <properties resource="db.properties"></properties>
+
+    <!--    配置了别名 :  直接使用包下面的类名就可以  -->
+    <typeAliases>
+        <package name="com.wn.bean"/>
+    </typeAliases>
+
+    <!--    配置插件 -->
+    <!--    <plugins>-->
+    <!--        &lt;!&ndash; com.github.pagehelper为PageHelper类所在包名 &ndash;&gt;-->
+    <!--        <plugin interceptor="com.github.pagehelper.PageInterceptor">-->
+    <!--            &lt;!&ndash; 当跳转的页码为负数时，显示第1页的数据 &ndash;&gt;-->
+    <!--            <property name="reasonable" value="true"/>-->
+    <!--        </plugin>-->
+    <!--    </plugins>-->
+
+    <environments default="dev">
+        <environment id="dev">
+            <transactionManager type="JDBC"/>
+            <!-- 这里是配置连接池  -->
+            <dataSource type="POOLED">
+                <property name="driver" value="${className}"/>
+                <property name="url" value="${url}"/>
+                <property name="username" value="${username}"/>
+                <property name="password" value="${password}"/>
+            </dataSource>
+        </environment>
+    </environments>
+    <mappers>
+        <package name="com.wn.mapper"/>
+    </mappers>
+</configuration>

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>注册页面</title>
+    <script src="/mvc/js/vue.min.js"></script>
+    <script src="/mvc/js/axios.min.js"></script>
+</head>
+<body>
+
+<h1>注册页面</h1>
+<div id="app">
+
+    <form>
+        用户名:<input type="text" v-model="user.username"> <br>
+        密码:<input type="password" v-model="user.password"> <br>
+        <input type="button" @click="submitStu" value="注册">
+    </form>
+    <span style="color: red">{{message}}</span>
+
+</div>
+<script>
+
+    let app = new Vue({
+        el:"#app",
+        data:{
+            message:"",
+            user:{}
+        },
+        /**
+         *  axios里面:
+         *   params :  提交数据 无论是get/post 数据提交都是get提交 数据都是拼接在 url上面
+         *
+         *   服务器获取:
+         *     req.getParameter("")
+         *     request.getParameterMap()
+         *
+         *   data    提交的数据是json对象
+         *      req.getInputStream()  拿到流,把流转成字符串,把字符串转成对象
+         */
+        methods:{
+            submitStu(){
+                console.log(this.stu);
+                axios({
+                    type:"GET",
+                    url:"http://localhost:8080/mvc/register",
+                    params:this.user
+                }).then(resp=>{
+                    console.log(resp);
+                    console.log(resp.data);
+                    if (resp.data.code == 100000){
+                        alert(resp.data.msg+", 跳转到登陆界面");
+                        //页面跳转
+                        location.href = "login.html";
+                    }else{
+                        alert(resp.data.msg);
+                        this.message="注册失败, 用户名已存在";
+                    }
+                })
+            }
+        }
+    })
+
+</script>
+
+</body>
+</html>
